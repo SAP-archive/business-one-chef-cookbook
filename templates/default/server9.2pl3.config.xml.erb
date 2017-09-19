@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-16" ?>
+<Config>
+  <Version><%= node['b1']['basedbversion'] %> SP:00 PL:<%= node['b1']['basepatch'] %></Version>
+  <UpgradeAction>
+    <Type>Upgrade</Type>
+  </UpgradeAction>
+  <LicenseServer>
+    <ServerName>localhost</ServerName>
+    <Port>30000</Port>
+    <UserName>B1SiteUser</UserName>
+    <Password><%= node['b1']['siteuserpassword'] %></Password>
+  </LicenseServer>
+  <B1DBServer>
+    <ServerType><%= node['b1']['sqlservertype'] %></ServerType>
+    <ServerName><%= node['fqdn'] %></ServerName>
+    <Trusted>No</Trusted>
+    <User>sa</User>
+    <Password><%= node['b1']['sapassword'] %></Password>
+  </B1DBServer>
+  <ServerComponents>
+    <Feature>
+      <UID>CommonDB</UID>
+      <Selected>Yes</Selected>
+    </Feature>
+    <Feature>
+      <UID>DemoDBs</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>Databases</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One - Microsoft Outlook Integration Server Installer</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Remote Support Platform</UID>
+      <Selected>No</Selected>
+    </Feature>
+  </ServerComponents>
+  <Features>
+    <Common>
+      <DBName>SBO-COMMON</DBName>
+      <CompanyName>Common Database</CompanyName>
+      <Selected>Yes</Selected>
+      <BackupRequired>No</BackupRequired>
+    </Common>
+  </Features>
+  <Databases/>
+  <DBBackups>
+    <DBServerDefault>Yes</DBServerDefault>
+    <IgnoreLowSpace>No</IgnoreLowSpace>
+  </DBBackups>
+  <DemoDatabases/>
+  <SLD>
+    <IsSelfCert>Yes</IsSelfCert>
+    <CertStore></CertStore>
+    <DomainUser></DomainUser>
+  </SLD>
+  <ServerTools>
+    <Feature>
+      <UID>SAP Business One ServerTools License Service</UID>
+      <Selected>Yes</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One ServerTools DI Server</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One ServerTools Job Service, Mailer</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One ServerTools Workflow</UID>
+      <Selected>No</Selected>
+    </Feature>
+  </ServerTools>
+  <AddOns>
+    <AddOn>
+      <UID>Datev (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>EFM Format Definition (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>FixedAssets (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Outlook_Integration (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Payment (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Screen Painter (32-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>EFM Format Definition (64-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Outlook_Integration (64-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Payment (64-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+    <AddOn>
+      <UID>Screen Painter (64-bit)</UID>
+      <Selected>No</Selected>
+    </AddOn>
+  </AddOns>
+  <ImplementationTools>
+    <Feature>
+      <UID>SAP Business One DI API</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One DI API (64-bit)</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Client</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Client (64-bit)</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Browser Access Server Gatekeeper</UID>
+      <Selected>No</Selected>
+      <IsSelfCert>No</IsSelfCert>
+      <CertStore></CertStore>
+      <Host></Host>
+      <Port></Port>
+      <ClientIs32Bit>Yes</ClientIs32Bit>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Software Development Kit</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>Solution Packager</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>Solution Packager x64</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Data Transfer Workbench</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Data Transfer Workbench x64</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Studio</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One Studio (64-bit)</UID>
+      <Selected>No</Selected>
+    </Feature>
+  </ImplementationTools>
+  <IntegrationSolutions>
+    <Feature>
+      <UID>SAP Business One - Microsoft Outlook Integration Standalone</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>SAP Business One - Microsoft Outlook Integration Standalone (64-bit)</UID>
+      <Selected>No</Selected>
+    </Feature>
+    <Feature>
+      <UID>Integration Solution Components</UID>
+      <Selected>No</Selected>
+    </Feature>
+  </IntegrationSolutions>
+  <B1IC>
+    <ServerType>7</ServerType>
+    <ServerName></ServerName>
+    <Port>1433</Port>
+    <DBName>B1if</DBName>
+    <DBUser></DBUser>
+    <DIUser>B1i</DIUser>
+    <DIAPI64bit>No</DIAPI64bit>
+    <MobileSolutionSupport>Yes</MobileSolutionSupport>
+    <PayrollSupport>Yes</PayrollSupport>
+    <PayrollPathInc>C:\Temp\In</PayrollPathInc>
+    <PayrollPathOut>C:\Temp\Out</PayrollPathOut>
+    <ElectronicInvoicesSupport>No</ElectronicInvoicesSupport>
+    <DocumentApprovalSupport>No</DocumentApprovalSupport>
+    <SapCustomerCheckoutSupport>No</SapCustomerCheckoutSupport>
+    <NotaFiscalElectronica>No</NotaFiscalElectronica>
+    <SapAnywhereSupport>No</SapAnywhereSupport>
+    <SapAnywherePackageDatabase></SapAnywherePackageDatabase>
+  </B1IC>
+  <Passcodes>
+    <path></path>
+  </Passcodes>
+  <FlowControl>
+    <StopOnSWComponentError>No</StopOnSWComponentError>
+  </FlowControl>
+</Config>

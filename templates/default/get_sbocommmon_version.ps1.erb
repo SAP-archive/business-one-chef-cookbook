@@ -1,0 +1,50 @@
+function global:GetSboCommonDbVersion ()
+{
+	Read-Query -ConnectionString 'Server=localhost;Database=master;UID=sa;PWD=<%= node['b1']['sapassword'] %>' `
+	    -Query "if db_id('SBO-COMMON') is not null SELECT Version FROM [SBO-COMMON].[dbo].[SINF]" `
+	    -Action {
+			$Ver= $args[0].Version
+			echo "$Ver" > <%= node['b1']['installerfolder'] %>\UPGRADE_RAN_$Ver
+	    }
+}
+
+function Read-Query
+{
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$ConnectionString,
+
+        [Parameter(Mandatory=$true)]
+        [string]$Query,
+
+        [Parameter(Mandatory=$true)]
+        [scriptblock]$Action
+    )
+
+    $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
+    $SqlConnection.ConnectionString = $ConnectionString
+    $SqlConnection.Open()
+    $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
+    $SqlCmd.CommandText = $Query
+    $SqlCmd.Connection = $SqlConnection
+    $reader = $SqlCmd.ExecuteReader()
+
+    while ($reader.Read())
+    {
+        $x = $null
+        $x = @{}
+
+        for ($i = 0; $i -lt $reader.FieldCount; ++$i)
+        {
+            $x.add($reader.GetName($i), $reader[$i])
+        }
+
+        Invoke-Command -ScriptBlock $action -ArgumentList $x
+    }
+
+    $SqlConnection.Close()
+}
+
+
+
+GetSboCommonDbVersion 
