@@ -8,11 +8,13 @@ Recipe installs the SAP Business One client.
 * b1::register_to_sld
 Register an existing Business One server to an existing SLD.
 
-More information and tutorials can be found on the [SAP PartnerEdge](https://partneredge.sap.com/en/products/business-one/support.html).
+SAP Business One Partners can find tutorials on how to use these cookbooks and setup Business One test environments with Chef on the [SAP PartnerEdge](https://partneredge.sap.com/en/products/business-one/support.html).
 # Limitations
 
 
-**_Only for SAP Business One Test and Demo environments, not for Productive use._**
+**_The SAP Business One Cookbooks do not follow the Business One installation process as described in the Business One Admin Guide.
+It is recommended to use these Chef Cookbooks to only create SAP Business One Test and Demo environments. 
+The SAP Business One Support Organization will not support Productive environment created with these Chef Cookbooks._**
 
 
 * This cookbook supports SAP Business One from version 9.2 Patch 2.
@@ -23,6 +25,86 @@ More information and tutorials can be found on the [SAP PartnerEdge](https://par
 # Requirements
 For the Microsoft Windows platform only.
 Microsoft SQL server must be installed first.
+
+
+# Download and Installation
+
+## Download
+This Cookbook is meant to be used in conjonction with a Chef server.
+You can use Knife or Berkshelf for example to add this Cookbook to a Chef Repository.
+
+For example, you can add this line to the Berksfile of your wrapper cookbook:
+
+	source 'https://supermarket.chef.io'
+	metadata
+	cookbook 'b1', git: 'https://github.com/SAP/business-one-chef-cookbook.git'
+
+
+
+## Usage 
+
+This will install the B1 Server components (including the B1 Server, SLD, License Server, etc.) and the B1 Client. You need to define the archive location, the version and the passwords.
+
+`recipe[b1::server],recipe[b1::client]`
+
+Attributes: 
+
+	{
+		"b1": {
+		 	"archiverepo": "http://myfileserver/b1-software/ms-sql",
+			"archive": "B192_PL05.zip",
+			"sqlservertype": "8",
+			"setupissdbservertype": "8",
+			"systempassword": "MyPassword1",
+			"siteuserpassword": "MyPassword1"
+		},
+		"b1server": {
+		 	"targetdbversion": "920150",
+			"targetpatch": "5"
+		},
+		"b1client": {
+		 	"dbversion": "920150",
+			"patch": "5"
+		}
+	}
+	
+
+
+## Usage - with pre-existing SLD
+
+This will install the B1 Server components and the B1 Client and register the MS-SQL instance to a separate SLD. You need to define the archive location, the version and the passwords.
+
+`recipe[b1::server],recipe[b1::client],recipe[b1::register_to_sld]`
+
+Attributes: 
+
+	{
+		"b1": {
+		 	"archiverepo": "http://myfileserver/b1-software/ms-sql",
+			"archive": "B192_PL05.zip",
+			"sqlservertype": "8",
+			"setupissdbservertype": "8",
+			"systempassword": "MyPassword1",
+			"siteuserpassword": "MyPassword1"
+		},
+		"b1server": {
+		 	"targetdbversion": "920150",
+			"targetpatch": "5"
+		},
+		"b1client": {
+		 	"dbversion": "920150",
+			"patch": "5"
+		},
+	 	"register_to_sld": {
+		 	"sldserver": "mysld.mydomain",
+		 	"sldusername": "B1SiteUser",
+		 	"sldpassword": "MyPassword1",
+		 	"instancename": "myinstance.mydomain",
+		 	"sqlversion": "SQL2014",
+		 	"dbusername": "sa",
+		 	"dbpassword": "MyPassword1"
+		 	}
+	}
 
 
 # Configuration
@@ -59,85 +141,13 @@ Microsoft SQL server must be installed first.
 | ['register_to_sld']['dbusername']		| String 		| The Username to connect to the client SQL Server | ""
 | ['register_to_sld']['dbpassword']		| String 		| The Password to connect to the client SQL Server | ""
 
-
-
-# Download and Installation
-
-## Download
-The cookbook needs to be cloned and added to the Chef server cookbook repository.
-
-## Usage 
-
-This will install the B1 Server components (including the B1 Server, SLD, License Server, etc.) and the B1 Client. You need to define the archive location, the version and the passwords.
-
-recipe[b1::server],recipe[b1::client]
-
-Attributes: 
-
-	{
-		"b1": {
-		 	"archiverepo": "http://myfileserver/b1-software/ms-sql",
-			"archive": "B192_PL05.zip",
-			"sqlservertype": "8",
-			"setupissdbservertype": "8",
-			"systempassword": "MyPassword1",
-			"siteuserpassword": "MyPassword1"
-		},
-		"b1server": {
-		 	"targetdbversion": "920150",
-			"targetpatch": "5"
-		},
-		"b1client": {
-		 	"dbversion": "920150",
-			"patch": "5"
-		}
-	}
 	
-
-
-## Usage - with pre-existing SLD
-
-This will install the B1 Server components and the B1 Client and register the MS-SQL instance to a separate SLD. You need to define the archive location, the version and the passwords.
-
-recipe[b1::server],recipe[b1::client],recipe[b1::register_to_sld]
-
-Attributes: 
-
-	{
-		"b1": {
-		 	"archiverepo": "http://myfileserver/b1-software/ms-sql",
-			"archive": "B192_PL05.zip",
-			"sqlservertype": "8",
-			"setupissdbservertype": "8",
-			"systempassword": "MyPassword1",
-			"siteuserpassword": "MyPassword1"
-		},
-		"b1server": {
-		 	"targetdbversion": "920150",
-			"targetpatch": "5"
-		},
-		"b1client": {
-		 	"dbversion": "920150",
-			"patch": "5"
-		},
-	 	"register_to_sld": {
-		 	"sldserver": "mysld.mydomain",
-		 	"sldusername": "B1SiteUser",
-		 	"sldpassword": "MyPassword1",
-		 	"instancename": "myinstance.mydomain",
-		 	"sqlversion": "SQL2014",
-		 	"dbusername": "sa",
-		 	"dbpassword": "MyPassword1"
-		 	}
-	}
-
-
 # Known Issues
 The Powershell script checking the version in the SINF table in SBO-Common does not report an error if it fails to connect to the SQL server.
 
 
 # How to obtain support
-This project allows and expects users to post questions or bug reports in the GitHub bug tracking system.
+This project allows and expects users to post questions or bug reports in the [GitHub bug tracking system](../../issues).
 
 # Contributing
 If you would like to contribute, please fork this project and post pull requests.
